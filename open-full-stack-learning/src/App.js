@@ -1,26 +1,42 @@
 import {useState} from 'react'
 
-const App = (props) => {
-  const [counter,setCounter] = useState(0)
-
-const handleClick = () => {
-  console.log('clicked')
+const Display = (props) => {
+  return (
+    <div>{props.counter}</div>
+  )
 }
 
+const Button = (props) => {
+  return (
+    <button onClick={props.onClick}>
+      {props.text}
+    </button>
+  )
+}
+
+const App = () => {
+  const [ counter, setCounter ] = useState(0)
+
+  const increaseByOne = () => setCounter(counter + 1)
+  const decreaseByOne = () => setCounter(counter - 1)
+  const setToZero = () => setCounter(0)
 
   return (
     <div>
-        <div>{counter}</div>
-        {/*  set the value of the button's onClick attribute to be a reference to the handleClick function */}
-        <button onClick={() => setCounter(counter + 1)}>
-          {/* button's name is plus */}
-          plus
-        </button>
-        <button onClick={() => setCounter(0)}>
-          zero
-        </button>
+      <Display counter={counter}/>
+      <Button
+       onClick={increaseByOne}
+       text='plus'
+      />
+      <Button
+        onClick={setToZero}
+        text='zero'
+      />
+      <Button
+        onClick={decreaseByOne}
+        text='minus'
+      />
     </div>
-
   )
 }
 
