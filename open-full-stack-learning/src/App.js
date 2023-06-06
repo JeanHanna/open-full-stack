@@ -3,13 +3,24 @@ import {useState} from 'react'
 const App = (props) => {
   const [counter,setCounter] = useState(0)
 
-  setTimeout(
-    () => setCounter(counter + 1),
-    1000
-  )
-  console.log('rendering...',counter)
+const handleClick = () => {
+  console.log('clicked')
+}
+
+
   return (
-    <div>{counter}</div>
+    <div>
+        <div>{counter}</div>
+        {/*  set the value of the button's onClick attribute to be a reference to the handleClick function */}
+        <button onClick={() => setCounter(counter + 1)}>
+          {/* button's name is plus */}
+          plus
+        </button>
+        <button onClick={() => setCounter(0)}>
+          zero
+        </button>
+    </div>
+
   )
 }
 
