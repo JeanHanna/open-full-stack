@@ -40,8 +40,8 @@ const App = () => {
   return (
     <div>
       {left}
-      <button handleClick={handleLeftClick}> text = 'left'</button>
-      <button handleClick={handleRightClick}> text = 'right'</button>
+      <Button handleClick={handleLeftClick} text = 'left' />
+      <Button handleClick={handleRightClick} text = 'right'/>
       {right}
       <History allClicks={allClicks} />
     </div>
