@@ -12,6 +12,9 @@ const Unicafe = () =>{
     const [good, setGood] = useState(0)
     const [neutral,setNeutral] = useState(0)
     const [bad, setBad] =useState(0)
+    const all = good + neutral + bad
+    const avergae = (good - bad)/all
+    const positive = (good/all) * 100 
 
 
     const handleGoodClick = () =>{
@@ -30,10 +33,13 @@ const Unicafe = () =>{
             <Button handleClick={handleGoodClick} text={'Good'}/>
             <Button handleClick={handleNeturalClick} text='Netural'/>
             <Button handleClick={handleBadClick } text='Bad'/>
-            <h2>statistics</h2>
+            <h1>statistics</h1>
             <p>good {good}</p>
-            <p>neutral{neutral}</p>
-            <p>bad{bad}</p>
+            <p>neutral {neutral}</p>
+            <p>bad {bad}</p>
+            <p>all {all}</p>
+            <p>average {avergae}</p>
+            <p>positive {positive}%</p>
 
         </div>
     )
