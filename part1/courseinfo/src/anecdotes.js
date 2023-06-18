@@ -8,6 +8,10 @@ const Button =({handleClick,text}) =>{
   )   
 }
 
+const mostVotes = ({anecdotes,votes}) => {
+  
+}
+
 const Anecdotes = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -18,31 +22,35 @@ const Anecdotes = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-  const randomNum = Math.floor(Math.random()*(anecdotes.length))
+
   const points=Array(anecdotes.length).fill(0)
- 
-  const [click,setClick] = useState(points)
+  const [votes,setClick] = useState(points)
   const handleVoteClick = () =>{
-     const copy = [...click]
+     const copy = [...votes]
      copy[selected] +=1
     setClick(copy)
-    console.log(points)
   }
-  
 
+  
   const [selected, setSelected] = useState(0)
   const handleNextClick = () =>{
+    const randomNum = Math.floor(Math.random()*(anecdotes.length))
     setSelected(randomNum)
   }
-  console.log(anecdotes.length)
-  // console.log(selected)
-
+  const max = Math.max(...votes)
+  const maxIndex = votes.indexOf(max)
   return (
     <div>
+      <h1>Anecdotes</h1>
       <p>{anecdotes[selected]}</p>
-      <p>has {click[selected]} votes</p>
+      <p>has {votes[selected]} votes</p>
       <Button handleClick={handleVoteClick} text='vote'/>
       <Button handleClick={handleNextClick} text='next anecdote'/>  
+
+      <h1>Anecdotes with most votes</h1>
+      <p>{anecdotes[maxIndex]}</p>
+      <p>has {max} points</p>
+
     </div>
   )
 }
