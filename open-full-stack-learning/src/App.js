@@ -1,5 +1,17 @@
+import Note from './components/Note'
+
+// const Note = ({note}) =>{
+//   return(
+//     <li>{note.content}</li>
+//   )
+// }
+
 const App = (props) => {
   const { notes } = props
+
+
+const result = notes.map(note => note.id)
+console.log(result)
 
   return (
     <div>
@@ -7,9 +19,7 @@ const App = (props) => {
       {/* have to be wrappeed in {} and must have key */}
       <ul>
         {notes.map(note => 
-          <li key={note.id}>
-            {note.content}
-            </li>
+          <Note key={note.id} note={note} />
             )}
       </ul>
     </div>
