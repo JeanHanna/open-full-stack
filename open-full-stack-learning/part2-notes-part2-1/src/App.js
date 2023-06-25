@@ -5,7 +5,7 @@ import {useState} from 'react'
 const App = (props) => {
   const [notes, setNotes] = useState(props.notes)
   const [newNote,setNewNote] = useState('')
-  const [showAll,setShowAll] = useState(true)
+  const [showAll,setShowAll] = useState(false)
 
   const addNote = (event) => {
     event.preventDefault()
@@ -25,7 +25,10 @@ const App = (props) => {
   }
 
   // conditional operator : showALL True-> notes; False-> notes.filter
-  const noteToShow = showAll ? notes : notes.filter(note => note.important)
+  const notesToShow = showAll 
+    ? notes 
+    : notes.filter(note => note.important)
+  console.log(notesToShow)
 
   return (
     <div>
@@ -36,7 +39,7 @@ const App = (props) => {
         </button>
       </div>
       <ul>
-        {notes.map(note =>
+        {notesToShow.map(note =>
           <Note key={note.id} note={note} />
         )}
       </ul>
