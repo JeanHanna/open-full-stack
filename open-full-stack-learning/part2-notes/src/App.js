@@ -8,6 +8,7 @@ const App = (props) => {
   const [newNote,setNewNote] = useState('')
   const [showAll,setShowAll] = useState(false)
 
+// useEffect to get the notes from db.json
   const hook = () => {
     console.log('effect')
     axios
@@ -17,7 +18,6 @@ const App = (props) => {
         setNotes(response.data)
       })
   }
-  
   useEffect(hook, [])
 
   const addNote = (event) => {
