@@ -10,7 +10,8 @@ const App = () => {
   useEffect(() => {
     axios.get('https://restcountries.com/v3.1/all')
     .then(response => {
-      setAllCountries(response.data)
+      setAllCountries(response.data.filter(country => country.name.common.toLowerCase().includes(searchCountry.toLowerCase())))
+      // console.log(response.data.name)
     })
     
   }, []);
