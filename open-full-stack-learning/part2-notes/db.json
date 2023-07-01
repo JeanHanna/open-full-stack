@@ -20,7 +20,7 @@
     },
     {
       "content": "POST is used to add data to a REST api",
-      "important": false,
+      "important": true,
       "id": 4
     }
   ]
