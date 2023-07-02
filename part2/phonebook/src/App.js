@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
+import personService from './service/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,16 +11,17 @@ const App = () => {
   const [newNumber,setNewNumber] = useState('')
   const [searchName,setSearchName] = useState('')
 
-  const hook = () =>{
+  useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response=>{
+    personService
+      .getAll()
+      .then(initialPersons=>{
+        console.log(initialPersons)
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(initialPersons)
       })
-  }
-  useEffect(hook,[])
+  },[])
+
   
   const addPerson = (event)=>{
     event.preventDefault()
@@ -29,11 +31,10 @@ const App = () => {
     }
     const names = persons.map(names => names.name)
     if (!names.includes(newName)){
-      axios
-      .post('http://localhost:3001/persons',personObject)
-      .then(response =>{
-        console.log(response)
-        setPersons(persons.concat(personObject))
+      personService.addNew(personObject)
+      .then(returnedPerson =>{
+        console.log(returnedPerson)
+        setPersons(persons.concat(returnedPerson))
       })
 
     }else{

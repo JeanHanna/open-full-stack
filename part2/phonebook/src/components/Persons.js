@@ -1,5 +1,5 @@
 // show searched person
-const Persons = ({persons,searchName,deletePerson}) => {
+const Persons = ({persons,searchName}) => {
     return(
         <ul>
         {persons.filter(person => 
