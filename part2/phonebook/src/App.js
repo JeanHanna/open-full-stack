@@ -45,7 +45,8 @@ const App = () => {
   }
 
   const handleDelete = person => {
-    personService
+    if (window.confirm(`Delete ${person.name} ?`)){
+      personService
       .deletePerson(person.id)
       .then(() => {
         setPersons(persons.filter(p => p.id !== person.id));
@@ -53,6 +54,8 @@ const App = () => {
       .catch(error => {
         console.error('Delete person failed:', error);
       });
+    }
+
   };
 
 
