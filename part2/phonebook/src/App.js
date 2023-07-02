@@ -44,6 +44,18 @@ const App = () => {
     setNewNumber('')
   }
 
+  const handleDelete = person => {
+    personService
+      .deletePerson(person.id)
+      .then(() => {
+        setPersons(persons.filter(p => p.id !== person.id));
+      })
+      .catch(error => {
+        console.error('Delete person failed:', error);
+      });
+  };
+
+
   const handleNameChange = (event) =>{
     setNewName(event.target.value)
   }
@@ -63,7 +75,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} searchName={searchName} />
+      <Persons persons={persons} searchName={searchName} handleDelete={handleDelete}/>
     </div>
   )
 }
