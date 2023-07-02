@@ -20,16 +20,22 @@ const App = () => {
       })
   }
   useEffect(hook,[])
-
-  const addName = (event)=>{
+  
+  const addPerson = (event)=>{
     event.preventDefault()
-    const nameObject = {
+    const personObject = {
       name: newName,
       number: newNumber
     }
     const names = persons.map(names => names.name)
     if (!names.includes(newName)){
-      setPersons(persons.concat(nameObject))
+      axios
+      .post('http://localhost:3001/persons',personObject)
+      .then(response =>{
+        console.log(response)
+        setPersons(persons.concat(personObject))
+      })
+
     }else{
       alert(`${newName} is already added to phonebook`)
     }
@@ -54,9 +60,9 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter value={searchName} onChange={handleSearchName}/>
       <h2>add a new</h2>
-      <PersonForm onSubmit={addName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
+      <PersonForm onSubmit={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} searchName={searchName}/>
+      <Persons persons={persons} searchName={searchName} />
     </div>
   )
 }
