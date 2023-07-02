@@ -2,14 +2,17 @@ import { useEffect,useState } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import axios from 'axios'
 import personService from './service/persons'
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber,setNewNumber] = useState('')
   const [searchName,setSearchName] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -42,6 +45,12 @@ const App = () => {
     }
     setNewName('')
     setNewNumber('')
+    setMessage(
+      `${newName} was successfully added`
+    )
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
   const handleDelete = person => {
@@ -74,6 +83,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter value={searchName} onChange={handleSearchName}/>
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
