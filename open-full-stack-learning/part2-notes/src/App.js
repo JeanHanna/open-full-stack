@@ -1,92 +1,92 @@
+import { useState, useEffect } from 'react'
 import Note from './components/Note'
-import {useState, useEffect} from 'react'
-import axios from 'axios'
+import Notification from './components/Notification'
+import Footer from './components/Footer'
 import noteService from './services/notes'
 
-
-const App = (props) => {
+const App = () => {
   const [notes, setNotes] = useState([])
-  const [newNote,setNewNote] = useState('')
-  const [showAll,setShowAll] = useState(false)
+  const [newNote, setNewNote] = useState('')
+  const [showAll, setShowAll] = useState(true)
+  const [errorMessage, setErrorMessage] = useState(null)
 
-// useEffect to get the notes from db.json
-useEffect(() => {
-  noteService
-    .getAll()
-    // initialNotes is the response of .getAll()
-    .then(initialNotes => {
-      setNotes(initialNotes)
-    })
-}, [])
+  useEffect(() => {
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
+      })
+  }, [])
 
   const addNote = (event) => {
     event.preventDefault()
-    console.log('button clicked', event.target)
     const noteObject = {
       content: newNote,
-      important: Math.random() < 0.5,
-      id: notes.length +1,
+      important: Math.random() > 0.5,
     }
 
     noteService
       .create(noteObject)
-      .then(returnedNote => {
+        .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
   }
 
-  const handleNoteChange=(event)=>{
-    console.log(event.target.value)
+  const handleNoteChange = (event) => {
     setNewNote(event.target.value)
   }
 
-  // conditional operator : showALL True-> notes; False-> notes.filter
-  const notesToShow = showAll 
-    ? notes 
+  const notesToShow = showAll
+    ? notes
     : notes.filter(note => note.important)
-  console.log(notesToShow)
 
-  const toggleImportanceOf = id => {
-    const url = `http://localhost:3001/api/notes/${id}`
-    const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important }
+   const toggleImportanceOf = id => {
+      const note = notes.find(n => n.id === id)
+      const changedNote = { ...note, important: !note.important }
   
-    noteService
-    .update(id, changedNote)
-    .then(returnedNote => {
-      setNotes(notes.map(note => note.id !== id ? note : returnedNote.data))
-    })
-    .catch(error => {
-      alert(
-        `the note '${note.content}' was already deleted from server`
-      )
-      setNotes(notes.filter(n => n.id !== id))
-    })
-  }
+      noteService
+        .update(id, changedNote).then(returnedNote => {
+          setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+        })
+        .catch(error => {
+          setErrorMessage(
+            `Note '${note.content}' was already removed from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+          setNotes(notes.filter(n => n.id !== id))
+        })
+    }
 
   return (
     <div>
-      <h1>Notes</h1>
+      <h1>Notes app</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'import' : 'all'}
+          show {showAll ? 'important' : 'all' }
         </button>
-      </div>
+      </div> 
       <ul>
-        {notesToShow.map(note =>
-          <Note 
-          key={note.id} 
-          note={note}
-          toggleImportance={()=> toggleImportanceOf(note.id)}
-          />
-        )}
+        <ul>
+          {notesToShow.map(note => 
+            <Note
+              key={note.id}
+              note={note}
+              toggleImportance={() => toggleImportanceOf(note.id)}
+            />
+          )}
+        </ul>
       </ul>
       <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange}/>
+        <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
+      <Footer />
     </div>
   )
 }
+
 export default App
