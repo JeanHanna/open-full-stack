@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.16",
     "json-server": "^0.17.3"
   }
 }
