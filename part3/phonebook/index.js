@@ -52,6 +52,32 @@ app.delete('/api/persons/:id',(request,response) =>{
   response.json(phonebook)
   response.status(204).end()
 })
+
+const generateId = () => {
+  const maxId = phonebook.length > 0
+    ? Math.max(...phonebook.map(n => n.id))
+    : 0
+  return maxId + 1
+}
+
+app.post('/api/persons', (request,response) =>{
+  const body = request.body
+  if (!body.name) {
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })
+  }
+  const person = {
+    id: phonebook.length + 1,
+    name: body.name,
+    date: new Date(),
+    number: body.number
+  }
+  phonebook = phonebook.concat(person)
+  response.json(phonebook)
+})
+
+
 const PORT =3001
 app.listen(PORT,() => {
     console.log(`server running on port ${PORT}`)
