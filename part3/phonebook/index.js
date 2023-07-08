@@ -93,7 +93,7 @@ app.post('/api/persons', (request,response) =>{
     number: body.number
   }
   phonebook = phonebook.concat(person)
-  response.json(phonebook)
+  response.json(person)
 })
 
 
